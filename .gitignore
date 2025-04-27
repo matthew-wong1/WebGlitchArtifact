@@ -1,0 +1,16 @@
+main.pdf
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+*~
+*.bak
+main.synctex.gz
+_minted-main
+_minted-artifact
+artifact.synctex.gz
+artifact.vtc
+artifact.fls
+artifact.fdb_latexmk
+artifact.pdf
