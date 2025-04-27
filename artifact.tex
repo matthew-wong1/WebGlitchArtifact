@@ -13,7 +13,7 @@
 
 % \nolinenumbers to disable line numbers
 
-% \bibliographystyle{plainurl}% the mandatory bibstyle
+\bibliographystyle{plainurl}% the mandatory bibstyle
 
 % Commands for artifact descriptions
 % Written by Camil Demetrescu and Erik Ernst
@@ -36,28 +36,29 @@ charge on the Dagstuhl Research Online Publication Server (DROPS).}{}
 % \titlerunning{A Sample DARTS Research Description (Artifact)} %optional, in case that the title is too long; the running title should fit into the top page column
 
 % ARTIFACT: Authors may not be exactly the same as the related scholarly paper, e.g., you may want to include authors who contributed to the preparation of the artifact, but not to the companion paper
+\author{Matthew K. L. Wong}{Department of Computing, Imperial College London, United Kingdom}{kwok.wong19@imperial.ac.uk}{https://orcid.org/0009-0004-2776-5430}{}
+%TODO mandatory, please use full name; only 1 author per \author macro; first two parameters are mandatory, other parameters can be empty. Please provide at least the name of the affiliation and the country. The full address is optional
 
-\author{John Q. Public}{Dummy University Computing Laboratory, [optional: Address], Country \and My second affiliation, Country \and \url{http://www.myhomepage.edu} }{johnqpublic@dummyuni.org}{https://orcid.org/0000-0002-1825-0097}{(Optional) author-specific funding acknowledgements}%TODO mandatory, please use full name; only 1 author per \author macro; first two parameters are mandatory, other parameters can be empty. Please provide at least the name of the affiliation and the country. The full address is optional
+\author{Alastair F. Donaldson}{Department of Computing, Imperial College London, United Kingdom}{alastair.donaldson@imperial.ac.uk}{https://orcid.org/0000-0002-7448-7961}{}
 
-\author{Joan R. Public\footnote{Optional footnote, e.g. to mark corresponding author}}{Department of Informatics, Dummy College, [optional: Address], Country}{joanrpublic@dummycollege.org}{[orcid]}{[funding]}
+\authorrunning{M.\,K.\,L. Wong and A.\,F. Donaldson}%TODO mandatory. First: Use abbreviated first/middle names. Second (only in severe cases): Use first author plus 'et al.'
 
-\authorrunning{J.\,Q. Public and J.\,R. Public}%TODO mandatory. First: Use abbreviated first/middle names. Second (only in severe cases): Use first author plus 'et al.'
+\Copyright{Matthew K. L. Wong and Alastair F. Donaldson}%TODO mandatory, please use full first names. LIPIcs license is "CC-BY";  http://creativecommons.org/licenses/by/3.0/
 
-\Copyright{John Q. Public and Joan R. Public}%TODO mandatory, please use full first names. LIPIcs license is "CC-BY";  http://creativecommons.org/licenses/by/3.0/
+\ccsdesc[500]{Software and its engineering~Software testing and debugging}
+\ccsdesc[500]{Software and its engineering~Object oriented languages}
 
-\ccsdesc[100]{General and reference~General literature}
-\ccsdesc[100]{General and reference}%TODO mandatory: Please choose ACM 2012 classifications from https://dl.acm.org/ccs/ccs_flat.cfm 
 
-\keywords{Dummy keyword}%TODO mandatory; please add comma-separated list of keywords
+\keywords{Fuzzing, WebGPU, WGSL, API, shaders, artifact} 
 
 %TODO Please provide information to the related scholarly article
-\RelatedArticle{John Q. Open and Joan R. Access, ``A very nice paper'', in Proceedings of the 30th Conference on Very Important Topics (CVIT 2016), LIPIcs, Vol.~0, pp.~0:1--0:2, 2016.\newline \url{https://doi.org/10.4230/LIPIcs.xxx.xxx.xxx}}
+\RelatedArticle{Matthew K. L. Wong and Alastair F. Donaldson, ``WebGlitch: A Randomised Testing Tool for the WebGPU API'', in Proceedings of the 30th Conference on Very Important Topics (CVIT 2016), LIPIcs, Vol.~0, pp.~0:1--0:2, 2016.\newline \url{https://doi.org/10.4230/LIPIcs.xxx.xxx.xxx}}
 
 % \acknowledgements{I want to thank \dots}%optional
 
-%\funding{(Optional) general funding statement \dots}%optional, to capture a funding statement, which applies to all authors. Please enter author specific funding statements as fifth argument of the \author macro.
+\funding{This work was supported by EPSRC grant EP/R006865/1 and gift funding from Google.}%optional, to capture a funding statement, which applies to all authors. Please enter author specific funding statements as fifth argument of the \author macro.
 
-%\nolinenumbers %uncomment to disable line numbering
+\nolinenumbers %uncomment to disable line numbering
 
 %Editor-only macros:: begin (do not touch as author)%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Volume{3}
@@ -71,71 +72,80 @@ charge on the Dagstuhl Research Online Publication Server (DROPS).}{}
 \maketitle
 
 \begin{abstract}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent convallis orci arcu, eu mollis dolor. Aliquam eleifend suscipit lacinia. Maecenas quam mi, porta ut lacinia sed, convallis ac dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. 
+We present the software artifact that accompanies our paper on WebGlitch, a new tool for fuzz testing WebGPU implementations, along with detailed instructions for its use.
+The artifact consists of Docker image containing the complete setup to run WebGlitch on two WebGPU implementations, Dawn and wgpu, via Node.js and Deno, respectively.
+This image allows users to reproduce the throughput and coverage experiments described in the paper, and provides a playground for generating WebGPU programs with WebGlitch and testing different WebGPU implementations. 
+We also include the full source code for WebGlitch for transparency.
+We hope this artifact will support future research in testing the WebGPU ecosystem and API fuzzing more broadly.
  \end{abstract}
 
 % ARTIFACT: please stick to the structure of 7 sections provided below
 
 % ARTIFACT: section on the scope of the artifact (what claims of the paper are intended to be backed by this artifact?)
 \begin{scope}
-What is the scope of the artifact? What claims of the related scholarly paper are intended to be backed by this artifact?
-
-This additional guidance only applies if you are claiming a functional/reusable badge.
-
-Please quote/reference all experimental claims made in the paper.
+The artifact provides 1) the source code for WebGlitch and 2) a Docker image with all required dependencies and configurations for running WebGlitch, executing the programs it generates against Dawn~\cite{dawn} (via Node.js) and wgpu~\cite{wgpu} (via Deno), and evaluating WebGlitch's performance. 
+It includes scripts to reproduce the following averaged results from the paper: 
+\begin{itemize}
+    \item WebGlitch takes an average of 0.675 seconds to generate a WebGPU program on (Section 3.7). 
+    \item Executing the WebGPU programs WebGlitch generates takes much longer, averaging 2.932 seconds (Section 3.7).
+    \item The absolute coverage of Dawn by WebGlitch and wg-fuzz~\cite{wgfuzz} is similar, averaging 13.52\% and 15.71\%, respectively, while the WebGPU Conformance Test Suite (CTS)~\cite{cts} achieves 28.00\% coverage (Section 5). 
+    \item WebGlitch covers approximately 1,530 lines of Dawn not covered by wg-fuzz, while wg-fuzz covers around 5,180 lines of Dawn not reached by WebGlitch (Section 5). 
+    \item WebGlitch is able to cover lines of Dawn missed by the CTS (Section 5).
+\end{itemize}
+Please note that program generation is randomised, so throughput and coverage results can vary from those reported.
+Additionally, some CTS tests exhibit flakiness, which may affect also coverage measurements.
 \end{scope}
 
 % ARTIFACT: section on the contents of the artifact (code, data, etc.)
 \begin{content}
-    Please list for each distinct component of your artifact:
-
-    type of artifact (data, code, proof, etc.);
-    format (e.g., CSV, source code, binary, etc.);
-    location in the container/VM.
-
-The artifact package includes:
-Source code 
-Docker image containing 
-
-Deno v2.2.12
-Dawn (hash...)
-WebGlitch (hash...)
-wg-fuzz (hash...)
-
-how to recompile the software?
+The artifact includes the WebGlitch source code, along with a Docker build file (Dockerfile.artifact) used to create the provided Docker image. This image contains the following components:
 \begin{itemize}
-\item \dots
+    \item A pre-built version of WebGlitch (in \texttt{/WebGlitch}). WebGlitch can be built with Gradle 8.9 by running \texttt{grade build}.
+    \item The compiled version of wg-fuzz used to measure coverage (in \texttt{/wg-fuzz}).
+    \item Dawn (hash 6e033b) compiled with Node bindings and coverage collection enabled (in \texttt{/dawn}). 
+    \item Deno v2.2.12, which includes wgpu (in \texttt{/opt/deno}).
+    \item The coverage results we collected in our experiments in JSON representation (in /CovCompare). Within /CovCompare are the results from WebGlitch (\texttt{webglitch\_no\_swarm\_formatted.json}), wg-fuzz (\texttt{wg\_fuzz\_no\_swarm\_formatted.json}), and the CTS (\texttt{cts\_api\_formatted.json} and \texttt{cts\_shader\_formatted.json}). Coverage results from the CTS, which include both API and shader tests, were collected separately and then combined.
 \end{itemize}
 \end{content}
 
 % ARTIFACT: section containing links to sites holding the
 % latest version of the code/data, if any
 \begin{getting}
-leave empty if the artifact is only available on the DROPS server.
-otherwise, provide links to the latest version of the artifact (e.g., on github)
-Please add a quick-start guide, describing how reviewers can check the artifact's integrity and basic functionality during the kick-the-tires phase.
-In addition, the artifact is also available at:
-\url{https://to.be.specified}.
+Running WebGPU programs requires access to the GPU. Since the artifact has been provided as a Docker image and has been tested with an NVIDIA GPU, it depends on the NVIDIA container toolkit (see Tested platforms).
+Before using the Docker image, the NVIDIA container toolkit should be installed by following the instructions in \url{https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html}.
+The docker image provided in the artifact can then be loaded with the following command:
+\begin{itemize}
+    \item \texttt{docker load -i webglitch\_image.tar}
+\end{itemize}
+Alternatively, it can be built by unzipping the provided WebGlitch source code and running the following command within \texttt{/WebGlitch}:
+\begin{itemize}
+    \item \texttt{docker build -f Dockerfile.artifact -t webglitch\_image .}
+\end{itemize}
+The Docker image can then be run with:
+\begin{itemize}
+    \item \texttt{docker run -it webglitch\_image}
+\end{itemize}
+Basic functionality can be tested with a shortened version of the evaluation tests within the \texttt{/WebGlitch} directory (commands explained in Appendix):
+\begin{itemize}
+    \item \texttt{python3 time.py 5}
+    \item \texttt{python3 coverage.py 5 -u}
+\end{itemize}
 \end{getting}
 
 % ARTIFACT: section specifying the platforms on which the artifact is known to
 % work, including requirements beyond the operating system such as large
 % amounts of memory or many processor cores
 \begin{platforms}
-Please specify the platforms on which the artifact is known to
-work, including requirements beyond the operating system such as large
-amounts of memory or many processor cores.
-
-4080. And the docker image was built with this in mind. 
-
-OS and resource (mandatory: CPU, memory, disk, optional: GPU) used by the authors to run the artifact
-precise estimation of the required hardware resources for evaluation.
-Known compatibility issues of the container/VM.
+The artifact is known to work on Ubuntu 24.04 with the following hardware configuration: Intel i7-13700K CPU, 64 GB DDR5 RAM, NVIDIA RTX 4080, and 500 GB of available disk space. 
+Collecting coverage data for the CTS requires substantial memory; in our experiments, systems with only 32 GB of RAM experienced test failures due to out-of-memory errors.
+The container also requires access to the GPU, requiring the installation of the NVIDIA container toolkit (see `Getting the artifact').
+The correct graphics drivers must be installed in the container as well; the provided Docker image was built with NVIDIA driver version 550. Running the artifact on a different GPU hardware may require a different driver.
+Compatibility with AMD graphics cards and/or other operating systems is not guaranteed. 
 \end{platforms}
 
 % ARTIFACT: section specifying the license under which the artifact is
 % made available
-\license{The artifact is available under license \dots.}
+\license{The artifact is available under the Creative Commons Attribution 4.0 International (CC BY 4.0) license.}
 
 % ARTIFACT: section specifying the md5 sum of the artifact master file
 % uploaded to the Dagstuhl Research Online Publication Server, enabling 
@@ -149,20 +159,23 @@ Known compatibility issues of the container/VM.
 
 % ARTIFACT: optional appendix
 \appendix
-\section{Morbi eros magna}
-For all experimental claims made in the paper, please explain how this claim can be reproduced with the artifac
-for example the data in table 1 can be obtained by running script X
-
-
+\section{Artifact usage and reproducibility}
+The throughput analysis results presented in Section 3.7 can be reproduced by running \texttt{python3 time.py} from within the \texttt{/WebGlitch} directory.
+By default, the script generates and executes 1,000 WebGPU programs, but this number can be modified by passing a second argument.
+Similarly, coverage measurements can be reproduced by running \texttt{python3 coverage.py} in the same directory.
+By default, 2,000 programs are generated by both WebGlitch and wg-fuzz, half of which will skip validity checking.
+The total number of programs generated by the fuzzers can be set with a second argument.
+Running the CTS may be time-consuming. To speed up evaluation, pre-collected WebGPU CTS coverage data can be used by passing the flag \texttt{-u} when running the command.
+Both scripts automatically handle repetition and averaging of results.
 % ARTIFACT: include here any additional references, if needed...
 
 %%
-%% Bibliography
-%%
+Bibliography
+
 
 %% Either use bibtex (recommended), 
 
-% \bibliography{darts-v2021-sample-article}
+\bibliography{darts-v2021-sample-article}
 
 %% .. or use the thebibliography environment explicitely
 
