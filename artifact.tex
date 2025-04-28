@@ -85,10 +85,9 @@ We hope this artifact will support future research in testing the WebGPU ecosyst
 % ARTIFACT: section on the scope of the artifact (what claims of the paper are intended to be backed by this artifact?)
 \begin{scope}
 The artifact provides 1) the source code for WebGlitch and 2) a Docker image with all required dependencies and configurations for running WebGlitch, executing the programs it generates against Dawn~\cite{dawn} (via Node.js) and wgpu~\cite{wgpu} (via Deno), and evaluating WebGlitch's performance. 
-It includes scripts to reproduce the following averaged results from the paper: \AD{If relevant, update the section references to be more specific subsections - I don't recall whether Section 5 had subsections. Ignore this comment if not relevant!}
+It includes scripts to reproduce the following averaged results from the paper:
 \begin{itemize}
-    \item \AD{Add a caveat that this number will vary depending on what machine one runs the artifact} WebGlitch takes an average of 0.675 seconds to generate a WebGPU program on \AD{something missing here?} (Section 3.7). 
-    \item \AD{Similar} Executing the WebGPU programs WebGlitch generates takes much longer, averaging 2.932 seconds (Section 3.7).
+    \item WebGlitch takes an average of 0.675 seconds to generate a WebGPU program, while executing the generated program takes much longer, averaging 2.932 seconds (Section 3.7). These results, of course, depend on the hardware used to run the artifact.
     \item The absolute coverage of Dawn by WebGlitch and wg-fuzz~\cite{wgfuzz} is similar, averaging 13.52\% and 15.71\%, respectively, while the WebGPU Conformance Test Suite (CTS)~\cite{cts} achieves 28.00\% coverage (Section 5). 
     \item WebGlitch covers approximately 1,530 lines of Dawn not covered by wg-fuzz, while wg-fuzz covers around 5,180 lines of Dawn not reached by WebGlitch (Section 5). 
     \item WebGlitch is able to cover lines of Dawn missed by the CTS (Section 5).
@@ -109,14 +108,20 @@ The artifact includes the WebGlitch source code, along with a Docker build file 
 \end{itemize}
 \end{content}
 
-\AD{I'm curious: what GPU will be used? Whatever GPU in the user's system? Or a software renderer like lavapipe? I guess the fact that timing results will be influenced by the GPU that is present could be worth mentioning above when you talk about randomisation and flakiness. Oh, I see that this is mentioned below.}
-
 % ARTIFACT: section containing links to sites holding the
 % latest version of the code/data, if any
 \begin{getting}
-Running WebGPU programs requires access to the GPU. Since the artifact has been provided as a Docker image and has been tested with an NVIDIA GPU, it depends on the NVIDIA container toolkit (see Tested platforms).
-Before using the Docker image, the NVIDIA container toolkit should be installed by following the instructions in \url{https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html}.
-The docker image provided in the artifact can then be decompressed and loaded with the following command:
+Running WebGPU programs requires direct access to a GPU. 
+Obtaining GPU access within a virtual machine or container can be problematic. 
+Therefore, we recommend using a Linux-based machine with a physical GPU to run the container.
+This system should also have Vulkan installed, which can be done with:
+\begin{itemize}
+    \item \texttt{apt-get install -y vulkan-tools libvulkan1}
+\end{itemize}
+After installation, running \texttt{vulkaninfo} should list the name of the physical GPU. 
+If it only lists a software rasteriser like LLVMpipe, then the physical GPU is not accessible and the artifact may not work.
+Since the artifact has been provided as a Docker image and has been tested with an NVIDIA GPU, the NVIDIA container toolkit must also be installed to allow GPU access within the container. Installation instructions are available at \url{https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html}.
+The Docker image provided in the artifact can then be decompressed and loaded with the following command:
 \begin{itemize}
     \item \texttt{pigz -d -c webglitch\_image.tar.gz | docker load}
 \end{itemize}
@@ -142,7 +147,7 @@ During coverage testing, some tests may be reported as failing; this is expected
 \begin{platforms}
 The artifact is known to work on Ubuntu 24.04 with the following hardware configuration: Intel i7-13700K, 64 GB DDR5 RAM, NVIDIA RTX 4080, and 500 GB of available disk space. 
 Collecting coverage data for the CTS requires substantial memory; in our experiments, systems with only 32 GB of RAM experienced test failures due to out-of-memory errors.
-The container also requires access to the GPU, requiring the installation of the NVIDIA container toolkit (see `Getting the artifact').
+The container also requires access to the GPU, requiring the installation of the NVIDIA container toolkit, the relevant graphics drivers for the GPU available in the system, and Vulkan (see `Getting the artifact').
 The correct graphics drivers must be installed in the container as well; the provided Docker image was built with NVIDIA driver version 550. Running the artifact on a different GPU hardware may require a different driver.
 Compatibility with AMD graphics cards and/or other operating systems is not guaranteed. 
 \end{platforms}
@@ -155,7 +160,7 @@ Compatibility with AMD graphics cards and/or other operating systems is not guar
 % uploaded to the Dagstuhl Research Online Publication Server, enabling 
 % downloaders to check that the file is the expected version and suffered 
 % no damage during download.
-\mdsum{xxx}
+\mdsum{9c244f4aedef985da7430aeea1d51940}
 
 % ARTIFACT: section specifying the size of the artifact master file uploaded
 % to the Dagstuhl Research Online Publication Server
