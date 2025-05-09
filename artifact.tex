@@ -123,9 +123,14 @@ If it only lists a software rasteriser like LLVMpipe, then the physical GPU is n
 Since the artifact has been provided as a Docker image and has been tested with an NVIDIA GPU, the NVIDIA container toolkit must also be installed to allow GPU access within the container. Installation instructions are available at \url{https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html}.
 The Docker image provided in the artifact can then be decompressed and loaded with the following command:
 \begin{itemize}
+    \item \texttt{gzip -d -c webglitch\_image.tar.gz | docker load}
+\end{itemize}
+Alternatively, \texttt{pigz} may be installed and used to speed up decompression:
+\begin{itemize}
+    \item \texttt{sudo apt install pigz}
     \item \texttt{pigz -d -c webglitch\_image.tar.gz | docker load}
 \end{itemize}
-Alternatively, it can be built by unzipping the provided WebGlitch source code and running the following command within \texttt{/WebGlitch}:
+The Docker image can also be built by unzipping the provided WebGlitch source code and running the following command within \texttt{/WebGlitch}:
 \begin{itemize}
     \item \texttt{docker build -f Dockerfile.artifact -t webglitch\_image .}
 \end{itemize}
