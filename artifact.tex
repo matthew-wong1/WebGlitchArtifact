@@ -150,7 +150,7 @@ During coverage testing, some tests may be reported as failing; this is expected
 % work, including requirements beyond the operating system such as large
 % amounts of memory or many processor cores
 \begin{platforms}
-The artifact is known to work on Ubuntu 24.04 with the following hardware configuration: Intel i7-13700K, 64 GB DDR5 RAM, NVIDIA RTX 4080, and 500 GB of available disk space. 
+The artifact is known to work on Ubuntu 24.04 with the following hardware configuration: Intel i7-13700K, 64 GB DDR5 RAM (>128 GB recommended), NVIDIA RTX 4080, and 500 GB of available disk space. 
 Collecting coverage data for the CTS requires substantial memory; in our experiments, systems with only 32 GB of RAM experienced test failures due to out-of-memory errors.
 The container also requires access to the GPU, requiring the installation of the NVIDIA container toolkit, the relevant graphics drivers for the GPU available in the system, and Vulkan (see `Getting the artifact').
 The correct graphics drivers must be installed in the container as well; the provided Docker image was built with NVIDIA driver version 550. Running the artifact on a different GPU hardware may require a different driver.
