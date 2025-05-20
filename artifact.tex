@@ -123,14 +123,18 @@ This system should also have Vulkan installed, which can be done with:
 After installation, running \texttt{vulkaninfo} should list the name of the physical GPU. 
 If it only lists a software rasteriser like LLVMpipe, then the physical GPU is not accessible and the artifact may not work.
 Since the artifact has been provided as a Docker image and has been tested with an NVIDIA GPU, the NVIDIA container toolkit must also be installed to allow GPU access within the container. Installation instructions are available at \url{https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html}.
-The Docker image provided in the artifact can then be decompressed and loaded with the following command:
+To load and run the Docker image, first decompress the artifact with:
 \begin{itemize}
-    \item \texttt{gzip -d -c webglitch\_image.tar.gz | docker load}
+    \item \texttt{tar -xf artifact.tar.gz}
 \end{itemize}
-Alternatively, \texttt{pigz} may be installed and used to speed up decompression:
+Alternatively, \texttt{pigz} can be installed to speed up decompression:
 \begin{itemize}
     \item \texttt{sudo apt install pigz}
-    \item \texttt{pigz -d -c webglitch\_image.tar.gz | docker load}
+    \item \verb|tar -xf artifact.tar.gz --use-compress-program=pigz|
+\end{itemize}
+Then, load the Docker image:
+\begin{itemize}
+    \item \texttt{docker load < artifact/webglitch\_image.tar}
 \end{itemize}
 The Docker image can also be built by unzipping the provided WebGlitch source code and running the following command within \texttt{/WebGlitch}:
 \begin{itemize}
@@ -167,11 +171,11 @@ Compatibility with AMD graphics cards and/or other operating systems is not guar
 % uploaded to the Dagstuhl Research Online Publication Server, enabling 
 % downloaders to check that the file is the expected version and suffered 
 % no damage during download.
-\mdsum{094d4cea1c086076cc9cf285eb78f0f4}
+\mdsum{ebe6cfc9a9db4b2797d2a97188fe7d01}
 
 % ARTIFACT: section specifying the size of the artifact master file uploaded
 % to the Dagstuhl Research Online Publication Server
-\artifactsize{9.25 GiB}
+\artifactsize{9.22 GiB}
 
 % ARTIFACT: optional appendix
 \appendix
